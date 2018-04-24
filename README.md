@@ -19,12 +19,20 @@ That's it. Hit enter and watch the results roll in.
 ## Assumptions
 The CSV file should follow the following structure:
 ```
-<preamble>
-ballot 1
-ballot 2
+<preamble 1>
+ballot 1-1
+ballot 1-2
 ...
-ballot k
+ballot 2-k
 end
+<preamble 2>
+ballot 2-1
+ballot 2-2
+...
+ballot 2-j
+end
+...
+<preamble n>
 ```
 where
 ```bnf
@@ -38,11 +46,16 @@ where each candidate choice is one of the names in the preamble
 
 ## Example
 ```csv
-start,<name of election title>,<number of open slots>,<candidate 1 name>,<candidate 2 name>,...<candidate N name>
-<first candidate choice>,<second candidate choice>,...,<M-th candidate choice>
-.
-.
-.
-<first candidate choice>,<second candidate choice>,...,<M-th candidate choice>
+start, a cool election,2,bob,alice,sue
+sue, bob, alice
+alice, bob, sue,
+alice, sue, bob
+end
+start, another cool election, 1, linda, rohm, ling
+ling, rohm, linda
+linda, ling, rohm
+linda, lina, rohm
+ling, linda, rohm
+rohm, linda, ling
 end
 ```
