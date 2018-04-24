@@ -3,7 +3,7 @@
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
 # @Last modified by:   matthale
-# @Last modified time: 2018-04-24T02:30:39-05:00
+# @Last modified time: 2018-04-24T02:55:23-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -142,3 +142,10 @@ with open(args.ballots) as ballotfile:
         else:
             # Parse a ballot line
             ballots.append(filter(lambda token: token!='',line))
+
+f = open('results.txt','w')
+for key in results:
+    f.write(key+"\n")
+    f.write("Winners:"+str(results[key]["winners"])+"\n")
+    f.write("Full rankings"+str(results[key]["ranking"])+"\n")
+f.close()
