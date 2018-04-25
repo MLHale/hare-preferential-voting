@@ -3,7 +3,7 @@
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
 # @Last modified by:   matthale
-# @Last modified time: 2018-04-24T02:55:23-05:00
+# @Last modified time: 2018-04-24T10:12:35-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -72,6 +72,8 @@ def compute_election(election_name,slots,candidates,ballots,verbose=False):
         if len(ranked_winners) > slots:
             raise Exception("There were more winners than slots available")
         elif len(ranked_winners) == slots:
+            for winner in potential_winners:
+                candidates.remove(winner)
             break # we're done
         else:
             # Remove winner from the candidate pool and continue
@@ -113,7 +115,8 @@ def compute_election(election_name,slots,candidates,ballots,verbose=False):
         if verbose: print "Lowest candidate this round is %s" % lowest_candidate
         # break
     ranked_losers.reverse()
-    results = { "winners" : ranked_winners, "ranking": ranked_winners + ranked_losers}
+    print len(candidates)
+    results = { "winners" : ranked_winners, "ranking": ranked_winners + candidates +ranked_losers}
     print "The winners for the %s election are %s" % (election_name, results["winners"])
     return results
 
