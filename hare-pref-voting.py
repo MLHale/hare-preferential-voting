@@ -2,8 +2,8 @@
 # @Date:   2018-04-23T18:25:12-05:00
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
-# @Last modified by:   matthale
-# @Last modified time: 2018-04-24T10:12:35-05:00
+# @Last modified by:   mlhale
+# @Last modified time: 2019-04-27T22:54:17-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -126,6 +126,7 @@ candidates = []
 results = {}
 election_name = ""
 ballots = []
+random.seed(9473)
 with open(args.ballots) as ballotfile:
     for line in csv.reader(ballotfile, delimiter=','):
         if line[0] == "start":
@@ -147,7 +148,7 @@ with open(args.ballots) as ballotfile:
             ballots.append(filter(lambda token: token!='',line))
 
 f = open('results.txt','w')
-for key in results:
+for key in sorted(results):
     f.write(key+"\n")
     f.write("Winners:"+str(results[key]["winners"])+"\n")
     f.write("Full rankings"+str(results[key]["ranking"])+"\n")
