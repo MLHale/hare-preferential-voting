@@ -3,7 +3,7 @@
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
 # @Last modified by:   mlhale
-# @Last modified time: 2019-04-27T22:54:17-05:00
+# @Last modified time: 2020-05-18T11:18:08-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -115,7 +115,7 @@ def compute_election(election_name,slots,candidates,ballots,verbose=False):
         if verbose: print "Lowest candidate this round is %s" % lowest_candidate
         # break
     ranked_losers.reverse()
-    print len(candidates)
+    # print len(candidates)
     results = { "winners" : ranked_winners, "ranking": ranked_winners + candidates +ranked_losers}
     print "The winners for the %s election are %s" % (election_name, results["winners"])
     return results
@@ -126,7 +126,7 @@ candidates = []
 results = {}
 election_name = ""
 ballots = []
-random.seed(9473)
+random.seed(2020)
 with open(args.ballots) as ballotfile:
     for line in csv.reader(ballotfile, delimiter=','):
         if line[0] == "start":
