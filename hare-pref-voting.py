@@ -2,8 +2,8 @@
 # @Date:   2018-04-23T18:25:12-05:00
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
-# @Last modified by:   mlhale
-# @Last modified time: 2020-05-18T11:18:08-05:00
+# @Last modified by:   matthale
+# @Last modified time: 2021-05-04T00:33:02-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -36,9 +36,10 @@ import argparse
 parser = argparse.ArgumentParser(description='Tabulate winners for elections conducted with HARE Preferential voting.')
 parser.add_argument('ballots', metavar='c',
                     help='The CSV file containing a list of rank-order preferenced ballots of the form: candidate_a,candidate_c,candidate_b,...and so on by preference')
-
+parser.add_argument('--show_steps', help="Shows each step of the hare choice algorithm (Default: False)", 
+                            choices=['True', 'False'])
 args = parser.parse_args()
-print args.ballots
+print "Parsing Ballot data from %s..." % (args.ballots)
 
 def compute_election(election_name,slots,candidates,ballots,verbose=False):
     num_candidates = len(candidates)
@@ -91,7 +92,6 @@ def compute_election(election_name,slots,candidates,ballots,verbose=False):
                     ballot.remove(winner)
 
                     ballots[index] = ballot
-                    # ballots[index] = ballot
 
 
 
@@ -100,8 +100,8 @@ def compute_election(election_name,slots,candidates,ballots,verbose=False):
         lowest_votes = filter(lambda (name,count): count == round_tally[len(round_tally)-1][1], round_tally)
 
         # Randomly pick one of the lowest candidates for removal
-        lowest_candidate = lowest_votes[random.randint(0, len(lowest_votes)-1)][0]
-
+        randomly_removed_candidate_index = random.randint(0, len(lowest_votes)-1)
+        lowest_candidate = lowest_votes[randomly_removed_candidate_index][0]
         ranked_losers.append(lowest_candidate)
 
         # Update ballots by removing the lowest candidate
@@ -112,7 +112,7 @@ def compute_election(election_name,slots,candidates,ballots,verbose=False):
         # Now remove them from the candidate pool
         candidates.remove(lowest_candidate)
 
-        if verbose: print "Lowest candidate this round is %s" % lowest_candidate
+        if verbose: print "Computing lowest candidate this round ... it is %s with %d votes" % (lowest_candidate, lowest_votes[randomly_removed_candidate_index][1])
         # break
     ranked_losers.reverse()
     # print len(candidates)
@@ -126,7 +126,7 @@ candidates = []
 results = {}
 election_name = ""
 ballots = []
-random.seed(2020)
+random.seed(2021)
 with open(args.ballots) as ballotfile:
     for line in csv.reader(ballotfile, delimiter=','):
         if line[0] == "start":
@@ -136,7 +136,7 @@ with open(args.ballots) as ballotfile:
             for token in line[3:]:
                 candidates.append(token)
         elif line[0] == "end":
-            results[election_name] = compute_election(election_name,slots,candidates,ballots)
+            results[election_name] = compute_election(election_name,slots,candidates,ballots,args.show_steps=='True')
 
             # Reset for next election (if it exists)
             election_name=""
@@ -148,8 +148,10 @@ with open(args.ballots) as ballotfile:
             ballots.append(filter(lambda token: token!='',line))
 
 f = open('results.txt','w')
+f.write('Election results computed from: '+str(args.ballots)+"\n\n")
 for key in sorted(results):
     f.write(key+"\n")
-    f.write("Winners:"+str(results[key]["winners"])+"\n")
-    f.write("Full rankings"+str(results[key]["ranking"])+"\n")
+    f.write("Winner(s): "+str(results[key]["winners"][0])+"\n")
+    f.write("Full rankings: "+str(results[key]["ranking"])+"\n")
+    f.write('\n')
 f.close()
