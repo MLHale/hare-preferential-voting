@@ -3,7 +3,7 @@
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
 # @Last modified by:   matthale
-# @Last modified time: 2021-05-04T00:41:34-05:00
+# @Last modified time: 2021-05-04T00:50:20-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -156,7 +156,7 @@ f = open('results.txt','w')
 f.write('Election results computed from: '+str(args.ballots)+ "\nRandom seed value used in the computation: " + str(seed_value) +"\n\n\n")
 for key in sorted(results):
     f.write(key+"\n")
-    f.write("Winner(s): "+str(results[key]["winners"][0])+"\n")
+    f.write("Winner(s): "+str(results[key]["winners"])+"\n")
     f.write("Full rankings: "+str(results[key]["ranking"])+"\n")
     f.write('\n')
 f.close()
