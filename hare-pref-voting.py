@@ -3,7 +3,7 @@
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
 # @Last modified by:   matthale
-# @Last modified time: 2021-05-04T00:33:02-05:00
+# @Last modified time: 2021-05-04T00:41:34-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
@@ -38,6 +38,8 @@ parser.add_argument('ballots', metavar='c',
                     help='The CSV file containing a list of rank-order preferenced ballots of the form: candidate_a,candidate_c,candidate_b,...and so on by preference')
 parser.add_argument('--show_steps', help="Shows each step of the hare choice algorithm (Default: False)", 
                             choices=['True', 'False'])
+parser.add_argument('--random_seed', help="Set the random seed (Default: 1)")
+
 args = parser.parse_args()
 print "Parsing Ballot data from %s..." % (args.ballots)
 
@@ -126,7 +128,10 @@ candidates = []
 results = {}
 election_name = ""
 ballots = []
-random.seed(2021)
+seed_value = 1
+if args.random_seed != None:
+    seed_value = int(args.random_seed)
+random.seed(seed_value)
 with open(args.ballots) as ballotfile:
     for line in csv.reader(ballotfile, delimiter=','):
         if line[0] == "start":
@@ -148,7 +153,7 @@ with open(args.ballots) as ballotfile:
             ballots.append(filter(lambda token: token!='',line))
 
 f = open('results.txt','w')
-f.write('Election results computed from: '+str(args.ballots)+"\n\n")
+f.write('Election results computed from: '+str(args.ballots)+ "\nRandom seed value used in the computation: " + str(seed_value) +"\n\n\n")
 for key in sorted(results):
     f.write(key+"\n")
     f.write("Winner(s): "+str(results[key]["winners"][0])+"\n")
