@@ -23,7 +23,7 @@ The CSV file should follow the following structure:
 ballot 1-1
 ballot 1-2
 ...
-ballot 2-k
+ballot 1-k
 end
 <preamble 2>
 ballot 2-1
