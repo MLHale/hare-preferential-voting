@@ -26,8 +26,6 @@ def read_and_filter_qualtrics_data(file_path):
 
     return data[matching_columns]
 
-import pandas as pd
-
 def prepare_csv_for_hare(dataframe, output_file):
     # Open a file to write
     with open(output_file, 'w') as file:
