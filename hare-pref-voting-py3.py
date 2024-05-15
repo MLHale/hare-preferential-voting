@@ -3,12 +3,12 @@
 # @Email:  mlhale@unomaha.edu
 # @Filename: hare-pref-voting.py
 # @Last modified by:   matthale
-# @Last modified time: 2021-05-04T00:50:20-05:00
+# @Last modified time: 2024-05-15T00:50:20-05:00
 # @Copyright: Copyright (C) 2018 Matthew L. Hale
 
 """
 Simple Hare preferential voting in python
-Copyright (C) 2018, Matt Hale
+Copyright (C) 2018, Matt Hale, updated for Python 3 in 2024
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
